@@ -579,8 +579,8 @@ CREATE TABLE AlarmLog(
     Timestamp DATETIME NOT NULL,
     Value DOUBLE NOT NULL,
     CONSTRAINT FK_AlarmLog_Measurement FOREIGN KEY(SignalID ASC) REFERENCES Measurement (SignalID) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT FK_AlarmLog_Alarm_PreviousState FOREIGN KEY(PreviousState ASC) REFERENCES Alarm (ID) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT FK_AlarmLog_Alarm_NewState FOREIGN KEY(NewState ASC) REFERENCES Alarm (ID) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT FK_AlarmLog_Alarm_PreviousState FOREIGN KEY(PreviousState ASC) REFERENCES Alarm (ID) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_AlarmLog_Alarm_NewState FOREIGN KEY(NewState ASC) REFERENCES Alarm (ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE CustomOutputAdapter(
@@ -1045,8 +1045,8 @@ FROM
             Log1.Timestamp,
             Log1.Value
         FROM
-			AlarmLog AS Log1 LEFT OUTER JOIN
-			AlarmLog AS Log2 ON Log1.SignalID = Log2.SignalID AND Log1.Ticks < Log2.Ticks
+            AlarmLog AS Log1 LEFT OUTER JOIN
+            AlarmLog AS Log2 ON Log1.SignalID = Log2.SignalID AND Log1.Ticks < Log2.Ticks
         WHERE
             Log2.ID IS NULL
     ) AS CurrentState
@@ -1465,8 +1465,8 @@ END;
 CREATE TRIGGER Alarm_InsertDefault AFTER INSERT ON Alarm
 FOR EACH ROW
 BEGIN
-    UPDATE OutputStreamMeasurement SET CreatedOn = strftime('%Y-%m-%d %H:%M:%f') WHERE ROWID = NEW.ROWID AND CreatedOn = '';
-    UPDATE OutputStreamMeasurement SET UpdatedOn = strftime('%Y-%m-%d %H:%M:%f') WHERE ROWID = NEW.ROWID AND UpdatedOn = '';
+    UPDATE Alarm SET CreatedOn = strftime('%Y-%m-%d %H:%M:%f') WHERE ROWID = NEW.ROWID AND CreatedOn = '';
+    UPDATE Alarm SET UpdatedOn = strftime('%Y-%m-%d %H:%M:%f') WHERE ROWID = NEW.ROWID AND UpdatedOn = '';
 END;
 
 CREATE TRIGGER Phasor_InsertDefault AFTER INSERT ON Phasor
