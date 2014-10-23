@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="makecert.exe" />
+    <Content Include="INSTALL_LICENSE.rtf" />
     <Content Include="PDQTrackerSetupBanner.bmp" />
     <Content Include="PDQTrackerSetupDialog.bmp" />
     <Content Include="PDQTrackerSetupLogo.jpg" />
