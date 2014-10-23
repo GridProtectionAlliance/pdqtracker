@@ -2,7 +2,7 @@
 
 <!--
 *******************************************************************************************************
-**  openHistorian.buildproj - Gbtc
+**  PDQTracker.buildproj - Gbtc
 **
 **  Copyright © 2011, Grid Protection Alliance.  All Rights Reserved.
 **
@@ -19,8 +19,8 @@
 **  
 **  Code Modification History:
 **  ===================================================================================================
-**  05/26/2011 - J. Ritchie Carroll
-**       Created openHistorian build script based on openPDC build script.
+**  09/18/2014 - Stephen C. Wills
+**       Created PDQTracker build script based on openHistorian build script.
 **
 *******************************************************************************************************
 -->
