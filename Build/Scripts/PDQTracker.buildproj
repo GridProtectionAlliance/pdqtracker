@@ -32,7 +32,7 @@
   <Target Name="BeforePrepareSettings">
     <PropertyGroup>
       <!-- Must-override setting(s). -->
-      <ProjectName>openHistorian</ProjectName>
+      <ProjectName>PDQTracker</ProjectName>
       <ServerFolder>$/$(ProjectName)/Main</ServerFolder>
       <!-- Use Visual Studio 11.0 tools -->
       <TfsClient Condition="'$(TfsClient)' == ''">$(VS110COMNTOOLS)\..\IDE\tf.exe</TfsClient>
@@ -45,18 +45,18 @@
     <PropertyGroup>
       <!-- Project specific settings. -->
       <ProjectSolution>$(LocalFolder)\Source\$(ProjectName).sln</ProjectSolution>
-      <BuildDeployFolder Condition="'$(BuildDeployFolder)' == ''">\\GPAWEB\NightlyBuilds\openHistorian\Beta\</BuildDeployFolder>
+      <BuildDeployFolder Condition="'$(BuildDeployFolder)' == ''">\\GPAWEB\NightlyBuilds\PDQTracker\Beta\</BuildDeployFolder>
     </PropertyGroup>
   </Target>
 
   <Target Name="BeforeVersionSource">
     <ItemGroup>
       <!-- List of files to be versioned. -->
-      <FilesToVersion Include="$(LocalFolder)\Source\**\AssemblyInfo.*" Exclude="$(LocalFolder)\Source\Applications\openPDCManager\Web.Data\Properties\AssemblyInfo.*">
+      <FilesToVersion Include="$(LocalFolder)\Source\**\AssemblyInfo.*">
         <VersionRegex>(?'BeforeVersion'AssemblyVersion\(%22)(?'CoreVersion'(\*|\d+)\.)+(\*|\d+)(?'AfterVersion'%22\))</VersionRegex>
         <VersionPrecision>4</VersionPrecision>
       </FilesToVersion>
-      <FilesToVersion Include="$(LocalFolder)\Source\**\AssemblyInfo.*" Exclude="$(LocalFolder)\Source\Applications\openPDCManager\Web.Data\Properties\AssemblyInfo.*">
+      <FilesToVersion Include="$(LocalFolder)\Source\**\AssemblyInfo.*">
         <VersionRegex>(?'BeforeVersion'AssemblyFileVersion\(%22)(?'CoreVersion'(\*|\d+)\.)+(\*|\d+)(?'AfterVersion'%22\))</VersionRegex>
         <VersionPrecision>4</VersionPrecision>
       </FilesToVersion>
