@@ -31,11 +31,11 @@
         </Grid.ColumnDefinitions>
 
         <GroupBox Header="Quick Links" Grid.Row="0" Grid.Column="0">
-            <StackPanel Orientation="Vertical" >
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                <Button x:Name="ButtonInputWizard" Content="Add New Device" Tag="GSF.PhasorProtocols.UI.UserControls.InputWizardUserControl" Width="180" Height="32" FontWeight="Bold" Click="ButtonQuickLink_Click"/>
+                <Button Content="Browse Devices" Tag="GSF.PhasorProtocols.UI.UserControls.DeviceListUserControl" Width="180" Height="32" FontWeight="Bold" Click="ButtonQuickLink_Click"/>
                 <Button Content="Graph Measurements" Tag="GSF.PhasorProtocols.UI.UserControls.InputStatusMonitorUserControl" Width="180" Height="32" FontWeight="Bold" Click="ButtonQuickLink_Click"/>
                 <Button Content="Stream Statistics" Tag="GSF.PhasorProtocols.UI.UserControls.RealTimeStatisticUserControl" Width="180" Height="32" FontWeight="Bold" Click="ButtonQuickLink_Click"/>
-                <Button x:Name="ButtonInputWizard" Content="Input Device Wizard" Tag="GSF.PhasorProtocols.UI.UserControls.InputWizardUserControl" Width="180" Height="32" FontWeight="Bold" Click="ButtonQuickLink_Click"/>
-                <Button Content="Browse Input Devices" Tag="GSF.PhasorProtocols.UI.UserControls.DeviceListUserControl" Width="180" Height="32" FontWeight="Bold" Click="ButtonQuickLink_Click"/>
                 <Button Content="Remote System Console" Tag="GSF.TimeSeries.UI.UserControls.MonitoringUserControl" Width="180" Height="32" FontWeight="Bold" Click="ButtonQuickLink_Click"/>
                 <Button Content="Restart Service" Tag="Restart" x:Name="ButtonRestart" Width="180" Height="32" FontWeight="Bold" Click="ButtonQuickLink_Click"/>
             </StackPanel>
