@@ -196,10 +196,7 @@ namespace ConfigurationSetupUtility.Screens
             if (!webManagerOptionEnabled)
                 m_PDQTrackerManagerWebCheckBox.IsChecked = false;
 
-            if (initialDataScript)
-                m_setupHistorianCheckBox.IsChecked = true;
-            else
-                m_setupHistorianCheckBox.IsChecked = false;
+            m_setupHistorianCheckBox.IsChecked = false;
 
             // Set up the state object with the proper initial values.
             m_state["applyChangesToService"] = m_PDQTrackerServiceCheckBox.IsChecked.Value;
