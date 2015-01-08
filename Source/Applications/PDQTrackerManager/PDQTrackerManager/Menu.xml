@@ -19,7 +19,7 @@
   <MenuDataItem Icon="" MenuText="_Reports" Description="PDQ Reporting Components" Roles="*" UserControlAssembly="" UserControlPath="">
     <SubMenuItems>
       <MenuDataItem Icon="" MenuText="Completeness Report" Description="Configure Completeness Report" Roles="*" UserControlAssembly="GSF.TimeSeries.UI.WPF.dll" UserControlPath="GSF.TimeSeries.UI.UserControls.CompletenessReportUserControl"/>
-      <MenuDataItem Icon="" MenuText="Correctness Report" Description="Configure Correctness Report" Roles="Special" UserControlAssembly="GSF.TimeSeries.UI.WPF.dll" UserControlPath="GSF.TimeSeries.UI.UserControls.CorrectnessReportUserControl"/>
+      <MenuDataItem Icon="" MenuText="Correctness Report" Description="Configure Correctness Report" Roles="*" UserControlAssembly="GSF.TimeSeries.UI.WPF.dll" UserControlPath="GSF.TimeSeries.UI.UserControls.CorrectnessReportUserControl"/>
     </SubMenuItems>
   </MenuDataItem>
   <MenuDataItem Icon="" MenuText="_Advanced" Description="Manage Advanced Settings" Roles="Administrator,Editor" UserControlAssembly="" UserControlPath="">
