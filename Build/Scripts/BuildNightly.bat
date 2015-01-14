@@ -18,4 +18,4 @@
 ::*******************************************************************************************************
 
 @ECHO OFF
-C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\msbuild.exe PDQTracker.buildproj /l:FileLogger,Microsoft.Build.Engine;logfile=PDQTracker.output
+C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\msbuild.exe PDQTracker.buildproj /p:SkipHelpFiles=true /l:FileLogger,Microsoft.Build.Engine;logfile=PDQTracker.output
