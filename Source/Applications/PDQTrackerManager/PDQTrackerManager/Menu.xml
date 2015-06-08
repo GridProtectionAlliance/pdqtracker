@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <MenuDataItems xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <MenuDataItem Icon="" MenuText="_Home" Description="System Overview" Roles="*" UserControlAssembly="PDQTrackerManager.exe" UserControlPath="PDQTrackerManager.StatusUserControl" />
-  <MenuDataItem Icon="" MenuText="_Devices" Description="Manage SSBG Inputs" Roles="*" UserControlAssembly="" UserControlPath="">
+  <MenuDataItem Icon="" MenuText="_Devices" Description="Manage PDQTracker Inputs" Roles="*" UserControlAssembly="" UserControlPath="">
     <SubMenuItems>
       <MenuDataItem Icon="" MenuText="_Browse Configured Devices" Description="Browse Devices" Roles="*" UserControlAssembly="GSF.PhasorProtocols.UI.WPF.dll" UserControlPath="GSF.PhasorProtocols.UI.UserControls.DeviceListUserControl" />
       <MenuDataItem Icon="" MenuText="" Description="" Roles="*" UserControlAssembly="" UserControlPath="" />
       <MenuDataItem Icon="" MenuText="Add _New Device" Description="Input Device Configuration Wizard" Roles="Administrator,Editor" UserControlAssembly="GSF.PhasorProtocols.UI.WPF.dll" UserControlPath="GSF.PhasorProtocols.UI.UserControls.InputWizardUserControl" />
     </SubMenuItems>
   </MenuDataItem>
-  <MenuDataItem Icon="" MenuText="_Monitoring" Description="Monitor SSBG Components" Roles="*" UserControlAssembly="" UserControlPath="">
+  <MenuDataItem Icon="" MenuText="_Monitoring" Description="Monitor PDQTracker Components" Roles="*" UserControlAssembly="" UserControlPath="">
     <SubMenuItems>
       <MenuDataItem Icon="" MenuText="_Graph Measurements" Description="Graph Real-time Measurements" Roles="*" UserControlAssembly="GSF.PhasorProtocols.UI.WPF.dll" UserControlPath="GSF.PhasorProtocols.UI.UserControls.InputStatusMonitorUserControl"/>
       <MenuDataItem Icon="" MenuText="" Description="" Roles="*" UserControlAssembly="" UserControlPath="" />
@@ -16,7 +16,7 @@
       <MenuDataItem Icon="" MenuText="_Stream Statistics" Description="Stream Statistics" Roles="*" UserControlAssembly="GSF.PhasorProtocols.UI.WPF.dll" UserControlPath="GSF.PhasorProtocols.UI.UserControls.RealTimeStatisticUserControl"/>
     </SubMenuItems>
   </MenuDataItem>
-  <MenuDataItem Icon="" MenuText="_Reports" Description="PDQ Reporting Components" Roles="*" UserControlAssembly="" UserControlPath="">
+  <MenuDataItem Icon="" MenuText="_Reports" Description="Data Quality Reporting" Roles="*" UserControlAssembly="" UserControlPath="">
     <SubMenuItems>
       <MenuDataItem Icon="" MenuText="Completeness Report" Description="Configure Completeness Report" Roles="*" UserControlAssembly="GSF.TimeSeries.UI.WPF.dll" UserControlPath="GSF.TimeSeries.UI.UserControls.CompletenessReportUserControl"/>
       <MenuDataItem Icon="" MenuText="Correctness Report" Description="Configure Correctness Report" Roles="*" UserControlAssembly="GSF.TimeSeries.UI.WPF.dll" UserControlPath="GSF.TimeSeries.UI.UserControls.CorrectnessReportUserControl"/>
@@ -27,7 +27,7 @@
       <MenuDataItem Icon="" MenuText="Manage _Node Settings" Description="Manage Node Settings" Roles="Administrator" UserControlAssembly="GSF.TimeSeries.UI.WPF.dll" UserControlPath="GSF.TimeSeries.UI.UserControls.NodeUserControl" />
       <MenuDataItem Icon="" MenuText="Configure _Security" Description="Configure Security" Roles="Administrator" UserControlAssembly="GSF.TimeSeries.UI.WPF.dll" UserControlPath="GSF.TimeSeries.UI.UserControls.SecurityUserControl" />
       <MenuDataItem Icon="" MenuText="" Description="" Roles="*" UserControlAssembly="" UserControlPath="" />
-      <MenuDataItem Icon="" MenuText="_Inputs       " Description="Manage SSBG Inputs" Roles="Administrator,Editor" UserControlAssembly="" UserControlPath="">
+      <MenuDataItem Icon="" MenuText="_Inputs       " Description="Manage PDQTracker Inputs" Roles="Administrator,Editor" UserControlAssembly="" UserControlPath="">
         <SubMenuItems>
           <MenuDataItem Icon="" MenuText="Manage Custom _Inputs" Description="Manage Custom Input Adapters" Roles="*" UserControlAssembly="GSF.TimeSeries.UI.WPF.dll" UserControlPath="GSF.TimeSeries.UI.UserControls.CustomInputAdapterUserControl" />
           <MenuDataItem Icon="" MenuText="Manually Add _New Device" Description="Add New Device Configuration" Roles="Administrator,Editor" UserControlAssembly="GSF.PhasorProtocols.UI.WPF.dll" UserControlPath="GSF.PhasorProtocols.UI.UserControls.DeviceUserControl" />
@@ -38,14 +38,14 @@
           <MenuDataItem Icon="" MenuText="Create Gateway Authorization _Request" Description="Create Authorization Request for Access to External Gateway" Roles="Administrator,Editor" UserControlAssembly="GSF.TimeSeries.Transport.UI.WPF.dll" UserControlPath="GSF.TimeSeries.Transport.UI.UserControls.SubscriberRequestUserControl"/>
         </SubMenuItems>
       </MenuDataItem>
-      <MenuDataItem Icon="" MenuText="_Actions     " Description="Manage SSBG Actions" Roles="*" UserControlAssembly="" UserControlPath="">
+      <MenuDataItem Icon="" MenuText="_Actions     " Description="Manage PDQTracker Actions" Roles="*" UserControlAssembly="" UserControlPath="">
         <SubMenuItems>
           <MenuDataItem Icon="" MenuText="_Alarm Configuration" Description="Manage Alarm Configuration" Roles="*" UserControlAssembly="GSF.TimeSeries.UI.WPF.dll" UserControlPath="GSF.TimeSeries.UI.UserControls.AlarmUserControl" />
           <MenuDataItem Icon="" MenuText="" Description="" Roles="*" UserControlAssembly="" UserControlPath="" />
           <MenuDataItem Icon="" MenuText="Manage _Custom Actions" Description="Manage Custom Action Adapters" Roles="*" UserControlAssembly="GSF.TimeSeries.UI.WPF.dll" UserControlPath="GSF.TimeSeries.UI.UserControls.CustomActionAdapterUserControl" />
         </SubMenuItems>
       </MenuDataItem>
-      <MenuDataItem Icon="" MenuText="_Outputs    " Description="Manage SSBG Outputs" Roles="Administrator,Editor" UserControlAssembly="" UserControlPath="">
+      <MenuDataItem Icon="" MenuText="_Outputs    " Description="Manage PDQTracker Outputs" Roles="Administrator,Editor" UserControlAssembly="" UserControlPath="">
         <SubMenuItems>
           <MenuDataItem Icon="" MenuText="_Historians Instances" Description="Manage Historian Instances" Roles="*" UserControlAssembly="GSF.TimeSeries.UI.WPF.dll" UserControlPath="GSF.TimeSeries.UI.UserControls.HistorianUserControl" />
           <MenuDataItem Icon="" MenuText="" Description="" Roles="*" UserControlAssembly="" UserControlPath="" />
@@ -63,7 +63,7 @@
           <MenuDataItem Icon="" MenuText="_View Iaon Tree" Description="View Iaon Tree" Roles="*" UserControlAssembly="GSF.TimeSeries.UI.WPF.dll" UserControlPath="GSF.TimeSeries.UI.UserControls.IaonTreeUserControl"/>
         </SubMenuItems>
       </MenuDataItem>
-      <MenuDataItem Icon="" MenuText="_Metadata   " Description="Manage SSBG Metadata" Roles="*" UserControlAssembly="" UserControlPath="">
+      <MenuDataItem Icon="" MenuText="_Metadata   " Description="Manage PDQTracker Metadata" Roles="*" UserControlAssembly="" UserControlPath="">
         <SubMenuItems>
           <MenuDataItem Icon="" MenuText="_Measurements" Description="Manage Measurements" Roles="*" UserControlAssembly="GSF.PhasorProtocols.UI.WPF.dll" UserControlPath="GSF.PhasorProtocols.UI.UserControls.PhasorMeasurementUserControl"/>
           <MenuDataItem Icon="" MenuText="" Description="" Roles="*" UserControlAssembly="" UserControlPath="" />
