@@ -84,8 +84,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="HistorianPlaybackUtility.exe" />
+    <Content Include="HistorianPlaybackUtility.exe.config" />
+    <Content Include="HistorianView.exe" />
+    <Content Include="HistorianView.exe.config" />
+    <Content Include="StatHistorianReportGenerator.exe" />
+    <Content Include="StatHistorianReportGenerator.exe.config" />
     <None Include="makecert.exe" />
+    <Content Include="ConfigCrypter.exe" />
+    <Content Include="ConfigCrypter.exe.config" />
+    <Content Include="ConfigurationEditor.exe" />
+    <Content Include="ConfigurationEditor.exe.Config" />
+    <Content Include="DataMigrationUtility.exe" />
+    <Content Include="DataMigrationUtility.exe.config" />
+    <Content Include="DNP3ConfigGenerator.exe" />
     <Content Include="INSTALL_LICENSE.rtf" />
+    <Content Include="NoInetFixUtil.exe" />
     <Content Include="PDQTrackerSetupBanner.bmp" />
     <Content Include="PDQTrackerSetupDialog.bmp" />
     <Content Include="PDQTrackerSetupLogo.jpg" />
