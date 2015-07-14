@@ -18,8 +18,8 @@
   </MenuDataItem>
   <MenuDataItem Icon="" MenuText="_Reports" Description="Data Quality Reporting" Roles="*" UserControlAssembly="" UserControlPath="">
     <SubMenuItems>
-      <MenuDataItem Icon="" MenuText="Completeness Report" Description="Configure Completeness Report" Roles="*" UserControlAssembly="GSF.TimeSeries.UI.WPF.dll" UserControlPath="GSF.TimeSeries.UI.UserControls.CompletenessReportUserControl"/>
-      <MenuDataItem Icon="" MenuText="Correctness Report" Description="Configure Correctness Report" Roles="*" UserControlAssembly="GSF.TimeSeries.UI.WPF.dll" UserControlPath="GSF.TimeSeries.UI.UserControls.CorrectnessReportUserControl"/>
+      <MenuDataItem Icon="" MenuText="Completeness/Availabiliy Report" Description="Configure Completeness/Availability Report" Roles="*" UserControlAssembly="GSF.TimeSeries.UI.WPF.dll" UserControlPath="GSF.TimeSeries.UI.UserControls.CompletenessReportUserControl"/>
+      <MenuDataItem Icon="" MenuText="Correctness/Accuracy Report" Description="Configure Correctness/Accuracy Report" Roles="*" UserControlAssembly="GSF.TimeSeries.UI.WPF.dll" UserControlPath="GSF.TimeSeries.UI.UserControls.CorrectnessReportUserControl"/>
     </SubMenuItems>
   </MenuDataItem>
   <MenuDataItem Icon="" MenuText="_Advanced" Description="Manage Advanced Settings" Roles="Administrator,Editor" UserControlAssembly="" UserControlPath="">
