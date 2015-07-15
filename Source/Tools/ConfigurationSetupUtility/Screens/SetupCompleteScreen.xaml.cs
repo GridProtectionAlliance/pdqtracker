@@ -375,9 +375,13 @@ namespace ConfigurationSetupUtility.Screens
         private void ValidateInternalDataPublisher()
         {
             string configFile = Directory.GetCurrentDirectory() + "\\PDQTracker.exe.config";
-            string configText = File.ReadAllText(configFile);
-            string replacedConfigText = configText.Replace("<datapublisher>", "<internaldatapublisher>").Replace("</datapublisher>", "</internaldatapublisher>");
-            File.WriteAllText(configFile, replacedConfigText);
+
+            if (File.Exists(configFile))
+            {
+                string configText = File.ReadAllText(configFile);
+                string replacedConfigText = configText.Replace("<datapublisher>", "<internaldatapublisher>").Replace("</datapublisher>", "</internaldatapublisher>");
+                File.WriteAllText(configFile, replacedConfigText);
+            }
         }
 
         private void ValidateGridSolutionsNamespaces()

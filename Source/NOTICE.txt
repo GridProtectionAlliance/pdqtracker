@@ -1,5 +1,5 @@
 =========================================================================================================
-==                             NOTICE file for the GPA PDQTracker distribution                            ==
+==                            NOTICE file for the GPA PDQTracker distribution                          ==
 =========================================================================================================
 
 GPA PDQTracker (http://www.PDQTracker.com/)

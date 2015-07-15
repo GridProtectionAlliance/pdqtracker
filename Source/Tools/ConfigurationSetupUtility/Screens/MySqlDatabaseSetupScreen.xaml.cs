@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -337,12 +338,17 @@ namespace ConfigurationSetupUtility.Screens
                 if (!m_state.ContainsKey("encryptMySqlConnectionStrings"))
                     m_state.Add("encryptMySqlConnectionStrings", false);
 
-                m_databaseNameTextBox.Text = migrate ? "PDQTrackerv2" : "PDQTracker";
+                m_databaseNameTextBox.Text = migrate ? "PDQTracker" + App.DatabaseVersionSuffix : "PDQTracker";
 
                 // When using an existing database as-is, read existing connection settings out of the configuration file
-                if (existing && !migrate)
+                string configFile = FilePath.GetAbsolutePath("PDQTracker.exe.config");
+
+                if (!File.Exists(configFile))
+                    configFile = FilePath.GetAbsolutePath("PDQTrackerManager.exe.config");
+
+                if (existing && !migrate && File.Exists(configFile))
                 {
-                    serviceConfig = XDocument.Load(FilePath.GetAbsolutePath("PDQTracker.exe.config"));
+                    serviceConfig = XDocument.Load(configFile);
 
                     connectionString = serviceConfig
                         .Descendants("systemSettings")

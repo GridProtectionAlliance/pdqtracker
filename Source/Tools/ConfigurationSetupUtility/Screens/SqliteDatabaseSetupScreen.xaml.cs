@@ -242,20 +242,25 @@ namespace ConfigurationSetupUtility.Screens
                 if (!Directory.Exists(sqliteDatabaseFilePath))
                     Directory.CreateDirectory(sqliteDatabaseFilePath);
 
-                m_sqliteDatabaseFilePathTextBox.Text = Path.Combine(sqliteDatabaseFilePath, migrate ? "PDQTrackerv2.db" : "PDQTracker.db");
+                m_sqliteDatabaseFilePathTextBox.Text = Path.Combine(sqliteDatabaseFilePath, migrate ? "PDQTracker" + App.DatabaseVersionSuffix + ".db" : "PDQTracker.db");
             }
             catch
             {
-                m_sqliteDatabaseFilePathTextBox.Text = migrate ? "PDQTrackerv2.db" : "PDQTracker.db";
+                m_sqliteDatabaseFilePathTextBox.Text = migrate ? "PDQTracker" + App.DatabaseVersionSuffix + ".db" : "PDQTracker.db";
             }
 
             if (!m_state.ContainsKey("sqliteDatabaseFilePath"))
                 m_state.Add("sqliteDatabaseFilePath", m_sqliteDatabaseFilePathTextBox.Text);
 
             // When using an existing database as-is, read existing connection settings out of the configuration file
-            if (existing && !migrate)
+            string configFile = FilePath.GetAbsolutePath("PDQTracker.exe.config");
+
+            if (!File.Exists(configFile))
+                configFile = FilePath.GetAbsolutePath("PDQTrackerManager.exe.config");
+
+            if (existing && !migrate && File.Exists(configFile))
             {
-                serviceConfig = XDocument.Load(FilePath.GetAbsolutePath("PDQTracker.exe.config"));
+                serviceConfig = XDocument.Load(configFile);
 
                 connectionString = serviceConfig
                     .Descendants("systemSettings")
