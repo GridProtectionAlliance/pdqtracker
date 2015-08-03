@@ -44,14 +44,14 @@ using GSF.Reflection;
 using GSF.ServiceProcess;
 using GSF.TimeSeries.UI;
 
-#pragma warning disable 612,618
+#pragma warning disable 414,612,618
 
 namespace PDQTrackerManager
 {
     /// <summary>
     /// Interaction logic for StatusUserControl.xaml
     /// </summary>
-    public partial class StatusUserControl : UserControl
+    public partial class StatusUserControl
     {
 
         private class DeviceStats
@@ -61,12 +61,12 @@ namespace PDQTrackerManager
             public double[] MeasurementsExpected;
         }
 
-        private class DeviceSignals
-        {
-            public string Name;
-            public double[] Latched;
-            public double[] Unreasonable;
-        }
+        //private class DeviceSignals
+        //{
+        //    public string Name;
+        //    public double[] Latched;
+        //    public double[] Unreasonable;
+        //}
 
 
         #region [ Members ]
@@ -77,7 +77,7 @@ namespace PDQTrackerManager
         private double m_level3Threshold;
 
         private List<DeviceStats> m_deviceStatsList;
-        private List<DeviceSignals> m_deviceSignalsList;
+        //private List<DeviceSignals> m_deviceSignalsList;
 
         // Fields
         private readonly ObservableCollection<MenuDataItem> m_menuDataItems;
@@ -98,8 +98,8 @@ namespace PDQTrackerManager
         public StatusUserControl()
         {
             InitializeComponent();
-            this.Loaded += StatusUserControl_Loaded;
-            this.Unloaded += StatusUserControl_Unloaded;
+            Loaded += StatusUserControl_Loaded;
+            Unloaded += StatusUserControl_Unloaded;
 
             // Load Menu
             XmlRootAttribute xmlRootAttribute = new XmlRootAttribute("MenuDataItems");
@@ -155,7 +155,7 @@ namespace PDQTrackerManager
                 m_windowsServiceClient.Helper.ReceivedServiceResponse += Helper_ReceivedServiceResponse;
                 CommonFunctions.SendCommandToService("Version -actionable");
                 CommonFunctions.SendCommandToService("Time -actionable");
-                CommonFunctions.SendCommandToService("ReportingConfig");
+                CommonFunctions.SendCommandToService("ReportingConfig completeness -actionable");
                 m_eventHandlerRegistered = true;
             }
 
@@ -363,14 +363,14 @@ namespace PDQTrackerManager
             {
                 if (sourceCommand.ToLower() == "version")
                 {
-                    this.Dispatcher.BeginInvoke((Action)delegate
+                    Dispatcher.BeginInvoke((Action)delegate
                     {
                         TextBlockVersion.Text = e.Argument.Message.Substring(e.Argument.Message.ToLower().LastIndexOf("version:", StringComparison.Ordinal) + 8).Trim();
                     });
                 }
                 else if (sourceCommand.ToLower() == "time")
                 {
-                    this.Dispatcher.BeginInvoke((Action)delegate
+                    Dispatcher.BeginInvoke((Action)delegate
                     {
                         string[] times = Regex.Split(e.Argument.Message, "\r\n");
                         if (times.Any())
@@ -388,10 +388,10 @@ namespace PDQTrackerManager
                         string config = e.Argument.Message.TrimEnd();
                         Arguments args = new Arguments(config);
 
-                        if (!double.TryParse(args["level4threshold"], out m_level4Threshold))
+                        if (!double.TryParse(args["level4threshold"].ToNonNullString("99.0").Trim(), out m_level4Threshold))
                             m_level4Threshold = 99.0D;
 
-                        if (!double.TryParse(args["level3threshold"], out m_level3Threshold))
+                        if (!double.TryParse(args["level3threshold"].ToNonNullString("90.0").Trim(), out m_level3Threshold))
                             m_level3Threshold = 90.0D;
 
                         ReadCompletenessData();
