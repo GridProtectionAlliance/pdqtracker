@@ -38,8 +38,8 @@ using GSF.Console;
 using GSF.Data;
 using GSF.Historian;
 using GSF.Historian.Files;
-using GSF.IO;
 using GSF.Identity;
+using GSF.IO;
 using GSF.Reflection;
 using GSF.ServiceProcess;
 using GSF.TimeSeries.UI;
@@ -206,7 +206,7 @@ namespace PDQTrackerManager
             }
             catch
             {
-                TextBlockDatabaseName.Text = "Not Avaliable";
+                TextBlockDatabaseName.Text = "Not Available";
             }
 
             try
@@ -365,7 +365,7 @@ namespace PDQTrackerManager
                 {
                     this.Dispatcher.BeginInvoke((Action)delegate
                     {
-                        TextBlockVersion.Text = e.Argument.Message.Substring(e.Argument.Message.ToLower().LastIndexOf("version:") + 8).Trim();
+                        TextBlockVersion.Text = e.Argument.Message.Substring(e.Argument.Message.ToLower().LastIndexOf("version:", StringComparison.Ordinal) + 8).Trim();
                     });
                 }
                 else if (sourceCommand.ToLower() == "time")
@@ -373,23 +373,26 @@ namespace PDQTrackerManager
                     this.Dispatcher.BeginInvoke((Action)delegate
                     {
                         string[] times = Regex.Split(e.Argument.Message, "\r\n");
-                        if (times.Count() > 0)
+                        if (times.Any())
                         {
                             string[] currentTimes = Regex.Split(times[0], ",");
-                            if (currentTimes.Count() > 0)
-                                TextBlockServerTime.Text = currentTimes[0].Substring(currentTimes[0].ToLower().LastIndexOf("system time:") + 12).Trim();
+                            if (currentTimes.Any())
+                                TextBlockServerTime.Text = currentTimes[0].Substring(currentTimes[0].ToLower().LastIndexOf("system time:", StringComparison.Ordinal) + 12).Trim();
                         }
                     });
                 }
-                else if (sourceCommand.ToLower() == "reportingconfig")
+                else if (sourceCommand.Trim().ToLower() == "reportingconfig")
                 {
                     new Thread(() =>
                     {
                         string config = e.Argument.Message.TrimEnd();
                         Arguments args = new Arguments(config);
 
-                        m_level4Threshold = double.Parse(args["level4threshold"]);
-                        m_level3Threshold = double.Parse(args["level3threshold"]);
+                        if (!double.TryParse(args["level4threshold"], out m_level4Threshold))
+                            m_level4Threshold = 99.0D;
+
+                        if (!double.TryParse(args["level3threshold"], out m_level3Threshold))
+                            m_level3Threshold = 90.0D;
 
                         ReadCompletenessData();
                         ReadCorrectnessData();
@@ -603,11 +606,17 @@ namespace PDQTrackerManager
 
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    if (totalExpected[0] == 0) {totalExpected[0] = 1;} // Not allowed to divide by zero
+                    if (totalExpected[0] == 0)
+                    {
+                        totalExpected[0] = 1;
+                    } // Not allowed to divide by zero
                     CreateGridTextItem(1, 1, HorizontalAlignment.Right, ((totalReceived[0] - totalLatched[0] - totalUnreasonable[0]) / totalExpected[0]).ToString("0.00%"), CorrectnesssGrid);
                     CreateGridTextItem(2, 1, HorizontalAlignment.Right, (totalLatched[0] / totalExpected[0]).ToString("0.00%"), CorrectnesssGrid);
                     CreateGridTextItem(3, 1, HorizontalAlignment.Right, (totalUnreasonable[0] / totalExpected[0]).ToString("0.00%"), CorrectnesssGrid);
-                    if (totalExpected[1] == 0) { totalExpected[1] = 1; } // Not allowed to divide by zero
+                    if (totalExpected[1] == 0)
+                    {
+                        totalExpected[1] = 1;
+                    } // Not allowed to divide by zero
                     CreateGridTextItem(1, 2, HorizontalAlignment.Right, ((totalReceived[1] - totalLatched[1] - totalUnreasonable[1]) / totalExpected[1]).ToString("0.00%"), CorrectnesssGrid);
                     CreateGridTextItem(2, 2, HorizontalAlignment.Right, (totalLatched[1] / totalExpected[1]).ToString("0.00%"), CorrectnesssGrid);
                     CreateGridTextItem(3, 2, HorizontalAlignment.Right, (totalUnreasonable[1] / totalExpected[1]).ToString("0.00%"), CorrectnesssGrid);
