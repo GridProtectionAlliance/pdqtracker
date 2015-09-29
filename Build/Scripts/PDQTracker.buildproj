@@ -4,40 +4,62 @@
 *******************************************************************************************************
 **  PDQTracker.buildproj - Gbtc
 **
-**  Copyright © 2011, Grid Protection Alliance.  All Rights Reserved.
+**  Tennessee Valley Authority, 2009
+**  No copyright is claimed pursuant to 17 USC § 105.  All Other Rights Reserved.
 **
-**  Licensed to the Grid Protection Alliance (GPA) under one or more contributor license agreements. See
-**  the NOTICE file distributed with this work for additional information regarding copyright ownership.
-**  The GPA licenses this file to you under the Eclipse Public License -v 1.0 (the "License"); you may
-**  not use this file except in compliance with the License. You may obtain a copy of the License at:
+**  This software is made freely available under the TVA Open Source Agreement (see below).
 **
-**      http://www.opensource.org/licenses/eclipse-1.0.php
-**
-**  Unless agreed to in writing, the subject software distributed under the License is distributed on an
-**  "AS-IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. Refer to the
-**  License for the specific language governing permissions and limitations.
-**  
 **  Code Modification History:
 **  ===================================================================================================
-**  09/18/2014 - Stephen C. Wills
-**       Created PDQTracker build script based on openHistorian build script.
+**  10/05/2009 - Pinal C. Patel
+**       Generated original version of source code.
+**  10/10/2009 - Pinal C. Patel
+**       Modified to accommodate the change in file versioning and building of install packages.
+**  10/13/2009 - Pinal C. Patel
+**       Made building of help docs optional using SkipHelpFiles property.
+**  10/15/2009 - Pinal C. Patel
+**       Enabled unit testing.
+**  10/19/2009 - Pinal C. Patel
+**       Enabled archiving of binaries and installs.
+**  10/20/2009 - Pinal C. Patel
+**       Made deployment of archives to public locations switchable.
+**  12/23/2009 - Pinal C. Patel
+**       Updated to exclude openPDCManager projects from versioning.
+**  04/27/2010 - Pinal C. Patel
+**       Moved initialization of version and project files to after the build has been initialized
+**       so that they don't include files that have to deleted of moved since the last build.
+**  04/28/2010 - Pinal C. Patel
+**       Modified the build to output a set of signed class libraries by leveraging the newly added
+**       ProjectsToBuild.Properties property.
+**       Made building of strong-named class libraries optional using SkipSigning property.
+**  10/09/2010 - Pinal C. Patel
+**       Modified BeforeBuildProjects target to compile 32-bit install package of openPDC.
+**       Overwrote BeforeCleanBuild target to exclude main setup application from the list of build
+**       output files to be deleted.
+**       Enabled versioning of setup projects.
+**  10/23/2010 - Pinal C. Patel
+**       Excluded openPDCManager Data project from versioning.
+**  11/14/2010 - Pinal C. Patel
+**       Added openPDCManager installer projects to the list of installs to build and added the output
+**       of openPDCManager setup projects to the list of files to be deleted prior to deployment.
 **
 *******************************************************************************************************
 -->
 
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <Import Project="..\..\..\Contributor Resources\Tools\Build Tools\Master Build\MasterBuild.buildproj"/>
+  <Import Project="MasterBuild.buildproj"/>
 
   <Target Name="BeforePrepareSettings">
     <PropertyGroup>
       <!-- Must-override setting(s). -->
       <ProjectName>PDQTracker</ProjectName>
-      <ServerFolder>$/$(ProjectName)/Main</ServerFolder>
-      <!-- Use Visual Studio 11.0 tools -->
-      <TfsClient Condition="'$(TfsClient)' == ''">$(VS110COMNTOOLS)\..\IDE\tf.exe</TfsClient>
-      <VisualStudio Condition="'$(VisualStudio)' == ''">$(VS110COMNTOOLS)\..\IDE\devenv.com</VisualStudio>
-      <MSTest Condition="'$(MSTest)' == ''">$(VS110COMNTOOLS)\..\IDE\mstest.exe</MSTest>
+      <GitServer>git@github.com:GridProtectionAlliance/pdqtracker.git</GitServer>
+      
+      <VersionMajorChange>None</VersionMajorChange>
+      <VersionMinorChange>None</VersionMinorChange>
+      <VersionBuildChange>Increment</VersionBuildChange>
+      <VersionRevisionChange>Reset</VersionRevisionChange>
     </PropertyGroup>
   </Target>
 
@@ -67,7 +89,7 @@
     <ItemGroup>
       <!-- List of projects to build. -->
       <ProjectsToBuild Include="$(ProjectSolution)"/>
-      <ProjectsToBuild Include="$(LocalFolder)\Build\Scripts\$(ProjectName).shfbproj" Condition="'$(SkipHelpFiles)' == ''"/>
+      <!--<ProjectsToBuild Include="$(LocalFolder)\Build\Scripts\$(ProjectName).shfbproj" Condition="'$(SkipHelpFiles)' == ''"/>-->
       <!-- List of installs to build. -->
       <InstallsToBuild Include="$(LocalFolder)\Source\**\*.wixproj" />
     </ItemGroup>
@@ -84,23 +106,47 @@
     <!-- Clean-up after all unit tests have been executed and passed. -->
     <RemoveDir Directories="%(UnitTestAssemblies.RootDir)%(UnitTestAssemblies.Directory)" Condition="Exists('%(UnitTestAssemblies.RootDir)%(UnitTestAssemblies.Directory)')"/>
   </Target>
-
+  
   <Target Name="BeforeCleanBuild">
     <ItemGroup>
       <!-- Exclude the main setup application from the list of build output files to be deleted. -->
       <FilesToDelete Remove="$(BuildOutputFolder)\Setup\Setup.exe"/>
     </ItemGroup>
   </Target>
-  
+
   <Target Name="BeforeDeployBuild">
+    <!--Directories containing help files.-->
+    <PropertyGroup>
+      <HelpOutputFolder>$(BuildOutputFolder)\..\..\Help\</HelpOutputFolder>
+      <HelpDeployFolder>$(BuildDeployFolder)\..\Help\</HelpDeployFolder>
+    </PropertyGroup>
+      
     <ItemGroup>
+      <!--List of source code files to archive.-->
+      <SourcesToArchive Include="$(LocalFolder)\Source\**\*.*" Exclude="$(LocalFolder)\Source\**\obj\**\*.*"/>
+      
       <!-- List of binaries to archive. -->
       <BinariesToArchive Include="$(BuildOutputFolder)\**\*.*"/>
+      
       <!-- List of installs to archive. -->
       <InstallsToArchive Include="$(BuildOutputFolder)\Setup\**\*.*"/>
-      <!-- Destinations of archive files (*.zip). -->
+
+      <!--Destinations of archive files (*.zip).-->
       <ArchiveDestinations Include="$(BuildDeployFolder)"/>
     </ItemGroup>
   </Target>
 
+  <Target Name="AfterDeployBuild">
+    <CallTarget Targets="DeployHelpFiles"/>
+  </Target>
+  
+  <Target Name="DeployHelpFiles" Condition="'$(SkipHelpFiles)' != 'true' And '$(BuildOutputFolder)' != '' And '$(BuildDeployFolder)' != ''">
+    <!-- Copy help files to the deploy folder. -->
+    <Message Text="Deploying help files..."/>
+    <ItemGroup>
+      <HelpFilesToDeploy Include="$(HelpOutputFolder)\**\*.*"/>
+    </ItemGroup>
+    <MakeDir Directories="$(HelpDeployFolder)" Condition="!Exists('$(HelpDeployFolder)')"/>
+    <Copy SourceFiles="@(HelpFilesToDeploy)" DestinationFolder="$(HelpDeployFolder)\%(HelpFilesToDeploy.RecursiveDir)"/>
+  </Target>
 </Project>

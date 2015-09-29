@@ -16,7 +16,7 @@
 ::
 ::  Code Modification History:
 ::  -----------------------------------------------------------------------------------------------------
-::  07/31/2013 - J. Ritchie Carroll
+::  02/26/2011 - Pinal C. Patel
 ::       Generated original version of source code.
 ::  08/26/2013 - J. Ritchie Carroll
 ::       Updated to roll-down schema files from Grid Solutions Framework.
@@ -25,42 +25,54 @@
 
 @ECHO OFF
 
-SET vs="%VS110COMNTOOLS%\..\IDE\devenv.com"
-SET tfs="%VS110COMNTOOLS%\..\IDE\tf.exe"
+SETLOCAL
+
+SET pwd="%CD%"
+SET gwd="%LOCALAPPDATA%\Temp\PDQTracker"
+SET git="%PROGRAMFILES(X86)%\Git\cmd\git.exe"
 SET replace="\\GPAWEB\NightlyBuilds\Tools\ReplaceInFiles\ReplaceInFiles.exe"
-SET source1="\\GPAWEB\NightlyBuilds\GridSolutionsFramework\Beta\Libraries\*.*"
-SET target1="..\..\Source\Dependencies\GSF"
-SET sourceschema=..\..\Source\Dependencies\GSF\Data
-SET targetschema=..\..\Source\Data
-SET solution="..\..\Source\PDQTracker.sln"
-SET sourcetools=..\..\Source\Applications\PDQTracker\PDQTrackerSetup\
-SET frameworktools=\\GPAWEB\NightlyBuilds\GridSolutionsFramework\Beta\Tools\
-SET /p checkin=Check-in updates (Y or N)? 
+
+SET remote="git@github.com:GridProtectionAlliance/pdqtracker.git"
+SET source="\\GPAWEB\NightlyBuilds\GridSolutionsFramework\Beta\Libraries\*.*"
+SET target="Source\Dependencies\GSF"
+SET sourcemasterbuild="\\GPAWEB\NightlyBuilds\GridSolutionsFramework\Beta\Build Scripts\MasterBuild.buildproj"
+SET targetmasterbuild="Build\Scripts"
+SET sourceschema=Source\Dependencies\GSF\Data
+SET targetschema=Source\Data
+SET sourcetools=\\GPAWEB\NightlyBuilds\GridSolutionsFramework\Beta\Tools\
+SET targettools=Source\Applications\PDQTracker\PDQTrackerSetup\
 
 ECHO.
-ECHO Getting latest version...
-%tfs% get %target1% /version:T /force /recursive /noprompt
-%tfs% get "%sourcetools%ConfigCrypter.exe" /version:T /force /recursive /noprompt
-%tfs% get "%sourcetools%ConfigurationEditor.exe" /version:T /force /recursive /noprompt
-%tfs% get "%sourcetools%StatHistorianReportGenerator.exe" /version:T /force /recursive /noprompt
-%tfs% get "%sourcetools%NoInetFixUtil.exe" /version:T /force /recursive /noprompt
+ECHO Entering working directory...
+IF EXIST %gwd% IF NOT EXIST %gwd%\.git RMDIR /S /Q %gwd%
+IF NOT EXIST %gwd% MKDIR %gwd%
+CD /D %gwd%
+
+IF EXIST .git GOTO UpdateRepository
 
 ECHO.
-ECHO Checking out dependencies...
-%tfs% checkout %target1% /recursive /noprompt
-%tfs% checkout "%sourcetools%ConfigCrypter.exe" /noprompt
-%tfs% checkout "%sourcetools%ConfigurationEditor.exe" /noprompt
-%tfs% checkout "%sourcetools%StatHistorianReportGenerator.exe" /noprompt
-%tfs% checkout "%sourcetools%NoInetFixUtil.exe" /noprompt
-%tfs% checkout "%targetschema%" /recursive /noprompt
+ECHO Cloning remote repository...
+%git% clone %remote% .
+
+:UpdateRepository
+ECHO.
+ECHO Updating to latest version...
+%git% reset --hard
+%git% clean -f -d
+%git% pull
 
 ECHO.
 ECHO Updating dependencies...
-XCOPY %source1% %target1% /Y /E
-XCOPY "%frameworktools%ConfigCrypter\ConfigCrypter.exe" "%sourcetools%ConfigCrypter.exe" /Y
-XCOPY "%frameworktools%ConfigEditor\ConfigEditor.exe" "%sourcetools%ConfigurationEditor.exe" /Y
-XCOPY "%frameworktools%StatHistorianReportGenerator\StatHistorianReportGenerator.exe" "%sourcetools%StatHistorianReportGenerator.exe" /Y
-XCOPY "%frameworktools%NoInetFixUtil\NoInetFixUtil.exe" "%sourcetools%NoInetFixUtil.exe" /Y
+XCOPY %source% %target% /Y /E
+XCOPY %sourcemasterbuild% %targetmasterbuild% /Y
+XCOPY "%sourcetools%ConfigCrypter\ConfigCrypter.exe" "%targettools%ConfigCrypter.exe" /Y
+XCOPY "%sourcetools%ConfigEditor\ConfigEditor.exe" "%targettools%ConfigurationEditor.exe" /Y
+XCOPY "%sourcetools%DataMigrationUtility\DataMigrationUtility.exe" "%targettools%DataMigrationUtility.exe" /Y
+XCOPY "%sourcetools%HistorianPlaybackUtility\HistorianPlaybackUtility.exe" "%targettools%HistorianPlaybackUtility.exe" /Y
+XCOPY "%sourcetools%HistorianView\HistorianView.exe" "%targettools%HistorianView.exe" /Y
+XCOPY "%sourcetools%StatHistorianReportGenerator\StatHistorianReportGenerator.exe" "%targettools%StatHistorianReportGenerator.exe" /Y
+XCOPY "%sourcetools%NoInetFixUtil\NoInetFixUtil.exe" "%targettools%NoInetFixUtil.exe" /Y
+XCOPY "%sourcetools%DNP3ConfigGenerator\DNP3ConfigGenerator.exe" "%targettools%DNP3ConfigGenerator.exe" /Y
 
 ECHO.
 ECHO Updating database schema defintions...
@@ -74,33 +86,26 @@ MOVE /Y "%sourceschema%\Oracle\*.*" "%targetschema%\Oracle\"
 MOVE /Y "%sourceschema%\SQL Server\*.*" "%targetschema%\SQL Server\"
 MOVE /Y "%sourceschema%\SQLite\*.*" "%targetschema%\SQLite\"
 %replace% /r /v "%targetschema%\*.sql" GSFSchema PDQTracker
-%replace% /r /v "%targetschema%\*.sql" "--*" "-- "
-%replace% /r /v "%targetschema%\*SampleDataSet.sql" 8500 8520
-%replace% /r /v "%targetschema%\*SampleDataSet.sql" 6165 6185
-%replace% /r /v "%targetschema%\*SampleDataSet.sql" "e7a5235d-cb6f-4864-a96e-a8686f36e599" "992fcc16-9bd4-4048-9db2-f003c6bb373f"
+%replace% /r /v "%targetschema%\*.sql" "--*" ""
+%replace% /r /v "%targetschema%\*SampleDataSet.sql" TestingAdapters HistorianAdapters
+%replace% /r /v "%targetschema%\*SampleDataSet.sql" VirtualOutputAdapter LocalOutputAdapter
+%replace% /r /v "%targetschema%\*SampleDataSet.sql" TESTDEVICE SHELBY
+%replace% /r /v "%targetschema%\*SampleDataSet.sql" "Test Device" Shelby
+%replace% /r /v "%targetschema%\*SampleDataSet.sql" "'TEST'" "'SHEL'"
 %replace% /r /v "%targetschema%\*db-update.bat" GSFSchema PDQTracker
-SET cwd=%CD%
 CD %targetschema%\SQLite
 CALL db-update.bat
-CD "%cwd%"
+CD %gwd%
 
-:: ECHO.
-:: ECHO Building solution...
-:: %vs% %solution% /Build "Release|Any CPU"
-
-IF /I "%checkin%" == "Y" GOTO Checkin
-GOTO Finalize
-
-:Checkin
 ECHO.
-ECHO Checking in dependencies...
-%tfs% checkin %target1% /noprompt /recursive /comment:"Updated grid solutions framework dependencies."
-%tfs% checkin "%sourcetools%ConfigCrypter.exe" /noprompt /comment:"Updated grid solutions framework tool: ConfigCrypter."
-%tfs% checkin "%sourcetools%ConfigurationEditor.exe" /noprompt /comment:"Updated grid solutions framework tool: ConfigurationEditor."
-%tfs% checkin "%sourcetools%StatHistorianReportGenerator.exe" /noprompt /comment:"Updated grid solutions framework tool: StatHistorianReportGenerator."
-%tfs% checkin "%sourcetools%NoInetFixUtil.exe" /noprompt /comment:"Updated grid solutions framework tool: NoInetFixUtil."
-%tfs% checkin "%targetschema%" /noprompt /recursive /comment:"Updated database schema definitions from GSF source."
+ECHO Committing updates to local repository...
+%git% add .
+%git% commit -m "Updated GSF dependencies."
 
-:Finalize
+ECHO.
+ECHO Pushing changes to remote repository...
+%git% push
+CD /D %pwd%
+
 ECHO.
 ECHO Update complete

@@ -1,5 +1,5 @@
 ::*******************************************************************************************************
-::  BuildBeta.bat - Gbtc
+::  BuildBetaNoHelp.bat - Gbtc
 ::
 ::  Tennessee Valley Authority, 2009
 ::  No copyright is claimed pursuant to 17 USC § 105.  All Other Rights Reserved.
@@ -19,4 +19,3 @@
 
 @ECHO OFF
 C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\msbuild.exe PDQTracker.buildproj /p:ForceBuild=true;SkipHelpFiles=true /l:FileLogger,Microsoft.Build.Engine;logfile=PDQTracker.output
-PAUSE
