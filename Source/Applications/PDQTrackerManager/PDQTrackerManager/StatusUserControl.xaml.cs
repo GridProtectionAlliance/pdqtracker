@@ -75,6 +75,7 @@ namespace PDQTrackerManager
         private const int ReportPeriod = 2; // 2 Days of displayed data
         private double m_level4Threshold;
         private double m_level3Threshold;
+        private Thread m_readerThread;
 
         private List<DeviceStats> m_deviceStatsList;
         //private List<DeviceSignals> m_deviceSignalsList;
@@ -133,6 +134,7 @@ namespace PDQTrackerManager
             finally
             {
                 m_refreshTimer = null;
+                m_readerThread?.Abort();
             }
         }
 
@@ -383,7 +385,9 @@ namespace PDQTrackerManager
                 }
                 else if (sourceCommand.Trim().ToLower() == "reportingconfig")
                 {
-                    new Thread(() =>
+                    m_readerThread?.Abort();
+
+                    m_readerThread = new Thread(() =>
                     {
                         string config = e.Argument.Message.TrimEnd();
                         Arguments args = new Arguments(config);
@@ -396,7 +400,9 @@ namespace PDQTrackerManager
 
                         ReadCompletenessData();
                         ReadCorrectnessData();
-                    }).Start();
+                    });
+                    
+                    m_readerThread.Start();
                 }
             }
         }
