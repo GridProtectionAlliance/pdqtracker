@@ -64,23 +64,23 @@ namespace Setup
         {
             bool runSetup = false;
 
-            // Verify that .NET 4.5 is installed
+            // Verify that .NET 4.6 is installed
             try
             {
-                RegistryKey net45 = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319\\SKUs\\.NETFramework,Version=v4.5");
+                RegistryKey net46 = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319\\SKUs\\.NETFramework,Version=v4.6");
 
-                if (net45 == null)
+                if (net46 == null)
                 {
-                    if (MessageBox.Show("Microsoft .NET 4.5 does not appear to be installed on this computer. The .NET 4.5 framework is required to be installed before you continue installation. Would you like to install it now?", ".NET 4.5 Check", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    if (MessageBox.Show("Microsoft .NET 4.6 does not appear to be installed on this computer. The .NET 4.6 framework is required to be installed before you continue installation. Would you like to install it now?", ".NET 4.6 Check", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         Process net45Install;
-                        const string netInstallPath = "Installers\\dotnetfx45_full_x86_x64.exe";
+                        const string netInstallPath = "Installers\\NDP46-KB3045557-x86-x64-AllOS-ENU.exe";
 
                         if (File.Exists(netInstallPath))
                         {
                             try
                             {
-                                // Attempt to launch .NET 4.5 installer...
+                                // Attempt to launch .NET 4.6 installer...
                                 net45Install = new Process();
                                 net45Install.StartInfo.FileName = netInstallPath;
                                 net45Install.StartInfo.UseShellExecute = false;
@@ -88,7 +88,7 @@ namespace Setup
                             }
                             catch
                             {
-                                // At a minimum open folder containing .NET 4.5 installer since its available to run...
+                                // At a minimum open folder containing .NET 4.6 installer since its available to run...
                                 net45Install = new Process();
                                 net45Install.StartInfo.FileName = Directory.GetCurrentDirectory() + "\\Installers\\";
                                 net45Install.StartInfo.UseShellExecute = true;
@@ -98,20 +98,20 @@ namespace Setup
                         else
                         {
                             net45Install = new Process();
-                            net45Install.StartInfo.FileName = "http://www.microsoft.com/en-us/download/details.aspx?id=30653";
+                            net45Install.StartInfo.FileName = "https://www.microsoft.com/en-us/download/details.aspx?id=48130";
                             net45Install.StartInfo.UseShellExecute = true;
                             net45Install.Start();
                         }
                     }
                     else
-                        runSetup = (MessageBox.Show("Would you like to attempt installation anyway?", ".NET 4.5 Check", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes);
+                        runSetup = (MessageBox.Show("Would you like to attempt installation anyway?", ".NET 4.6 Check", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes);
                 }
                 else
                     runSetup = true;
             }
             catch
             {
-                runSetup = (MessageBox.Show("The setup program was not able to determine if Microsoft .NET 4.5 is installed on this computer. The .NET 4.5 framework is required to be installed before you continue installation. Would you like to attempt installation anyway?", ".NET 4.5 Check", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes);
+                runSetup = (MessageBox.Show("The setup program was not able to determine if Microsoft .NET 4.6 is installed on this computer. The .NET 4.6 framework is required to be installed before you continue installation. Would you like to attempt installation anyway?", ".NET 4.6 Check", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes);
             }
 
             // See if an existing version is currently installed
