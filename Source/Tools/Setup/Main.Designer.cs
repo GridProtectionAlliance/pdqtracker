@@ -147,7 +147,7 @@
             this.labelInstallationOptions.Size = new System.Drawing.Size(379, 66);
             this.labelInstallationOptions.TabIndex = 6;
             this.labelInstallationOptions.Text = "This setup utility will install the PDQTracker and/or related tools. This install" +
-    "ation requires .NET 4.5.";
+    "ation requires .NET 4.6.";
             this.labelInstallationOptions.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelNotes
