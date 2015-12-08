@@ -86,7 +86,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App4.5.2.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PDQTracker\PDQTracker4.5.2.csproj">
@@ -105,4 +105,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterBuild">
+    <Delete Files="$(TargetDir)$(TargetFileName).config" />
+    <Copy SourceFiles="$(ProjectDir)\App4.5.2.config" DestinationFiles="$(TargetDir)$(TargetFileName).config" />
+  </Target>
 </Project>

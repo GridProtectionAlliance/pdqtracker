@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 // Informational attributes.
 [assembly: AssemblyCompany("Grid Protection Alliance")]
-[assembly: AssemblyCopyright("Copyright © 2010.  All Rights Reserved.")]
+[assembly: AssemblyCopyright("Copyright © 2015.  All Rights Reserved.")]
 [assembly: AssemblyProduct("PDQTracker")]
 
 // Assembly manifest attributes.
@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 #else
 [assembly: AssemblyConfiguration("Release Build")]
 #endif
-[assembly: AssemblyDescription("Windows service that hosts input, action and output adapters.")]
+[assembly: AssemblyDescription("Windows service that hosts PDQTracker input, action and output adapters.")]
 [assembly: AssemblyTitle("PDQTracker Iaon Host")]
 
 // Other configuration attributes.

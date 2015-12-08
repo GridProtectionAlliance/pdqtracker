@@ -159,13 +159,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App4.5.2.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="PDQTracker.ico" />
     <None Include="PostBuildSetup.bat" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
     <Content Include="Sample1344.PmuCapture" />
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +201,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="AfterBuild">
+    <Delete Files="$(TargetDir)$(TargetFileName).config" />
+    <Copy SourceFiles="$(ProjectDir)\App4.5.2.config" DestinationFiles="$(TargetDir)$(TargetFileName).config" />
+  </Target>
   <PropertyGroup>
     <PostBuildEvent>CALL "$(ProjectDir)PostBuildSetup.bat" "$(TargetDir)Database Scripts" "$(SolutionDir)Data\*.*"
 CALL "$(ProjectDir)PostBuildSetup.bat" "$(TargetDir)" "$(SolutionDir)Dependencies\GSF4.5.2\*.*"

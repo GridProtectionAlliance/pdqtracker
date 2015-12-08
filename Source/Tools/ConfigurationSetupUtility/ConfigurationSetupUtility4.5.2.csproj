@@ -348,7 +348,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config">
+    <None Include="App4.5.2.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="app.manifest" />
@@ -392,8 +392,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>IF EXIST "$(TargetDir)..\..\Applications\PDQTracker" COPY "$(TargetPath)" "$(TargetDir)..\..\Applications\PDQTracker"
-IF EXIST "$(TargetDir)..\..\Applications\PDQTracker" COPY "$(TargetDir)$(TargetFileName).config" "$(TargetDir)..\..\Applications\PDQTracker"</PostBuildEvent>
+    <PostBuildEvent>IF EXIST "$(TargetDir)..\..\Applications\PDQTracker" COPY "$(TargetPath)" "$(TargetDir)..\..\Applications\PDQTracker"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -401,5 +400,10 @@ IF EXIST "$(TargetDir)..\..\Applications\PDQTracker" COPY "$(TargetDir)$(TargetF
   </Target>
   <Target Name="AfterBuild">
   </Target>
-  -->
+  -->  
+  <Target Name="AfterBuild">    
+    <Delete Files="$(TargetDir)$(TargetFileName).config" />    
+    <Copy SourceFiles="$(ProjectDir)\App4.5.2.config" DestinationFiles="$(TargetDir)$(TargetFileName).config" />
+    <Copy SourceFiles="$(TargetDir)$(TargetFileName).config" DestinationFiles="$(TargetDir)..\..\Applications\PDQTracker\$(TargetFileName).config" />
+  </Target>  
 </Project>

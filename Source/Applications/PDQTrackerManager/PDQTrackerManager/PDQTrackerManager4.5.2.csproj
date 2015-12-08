@@ -173,22 +173,20 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StatisticsReader.cs" />
     <Compile Include="StatusUserControl.xaml.cs">
       <DependentUpon>StatusUserControl.xaml</DependentUpon>
     </Compile>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ApplicationInstall.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -219,7 +217,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="App.config" />
+    <None Include="App4.5.2.config" />
     <Content Include="PDQTrackerManagerHelp.mht">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -265,7 +263,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>IF EXIST "$(TargetDir)..\PDQTracker" COPY "$(TargetPath)" "$(TargetDir)..\PDQTracker"
-IF EXIST "$(TargetDir)..\PDQTracker" COPY "$(TargetDir)$(TargetFileName).config" "$(TargetDir)..\PDQTracker"
 IF EXIST "$(TargetDir)..\PDQTracker" COPY "$(TargetDir)*.dll" "$(TargetDir)..\PDQTracker"
 IF EXIST "$(TargetDir)..\PDQTracker" COPY "$(TargetDir)Menu.xml" "$(TargetDir)..\PDQTracker"</PostBuildEvent>
   </PropertyGroup>
@@ -276,4 +273,9 @@ IF EXIST "$(TargetDir)..\PDQTracker" COPY "$(TargetDir)Menu.xml" "$(TargetDir)..
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterBuild">
+    <Delete Files="$(TargetDir)$(TargetFileName).config" />
+    <Copy SourceFiles="$(ProjectDir)\App4.5.2.config" DestinationFiles="$(TargetDir)$(TargetFileName).config" />
+    <Copy SourceFiles="$(TargetDir)$(TargetFileName).config" DestinationFiles="$(TargetDir)..\..\Applications\PDQTracker\$(TargetFileName).config" />
+  </Target>
 </Project>

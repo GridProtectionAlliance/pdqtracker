@@ -137,7 +137,7 @@
     <Compile Include="ServiceClient.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App4.5.2.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PDQTrackerConsole.ico" />
@@ -167,6 +167,10 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterBuild">
+    <Delete Files="$(TargetDir)$(TargetFileName).config" />
+    <Copy SourceFiles="$(ProjectDir)\App4.5.2.config" DestinationFiles="$(TargetDir)$(TargetFileName).config" />
+  </Target>
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
