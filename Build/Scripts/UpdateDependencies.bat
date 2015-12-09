@@ -85,12 +85,12 @@ MOVE /Y "%sourceschema%\MySQL\*.*" "%targetschema%\MySQL\"
 MOVE /Y "%sourceschema%\Oracle\*.*" "%targetschema%\Oracle\"
 MOVE /Y "%sourceschema%\SQL Server\*.*" "%targetschema%\SQL Server\"
 MOVE /Y "%sourceschema%\SQLite\*.*" "%targetschema%\SQLite\"
--%replace% /r /v "%targetschema%\*.sql" GSFSchema PDQTracker
--%replace% /r /v "%targetschema%\*.sql" "--*" "-- "
--%replace% /r /v "%targetschema%\*SampleDataSet.sql" 8500 8520
--%replace% /r /v "%targetschema%\*SampleDataSet.sql" 6165 6185
--%replace% /r /v "%targetschema%\*SampleDataSet.sql" "e7a5235d-cb6f-4864-a96e-a8686f36e599" "992fcc16-9bd4-4048-9db2-f003c6bb373f"
--%replace% /r /v "%targetschema%\*db-update.bat" GSFSchema PDQTracker
+%replace% /r /v "%targetschema%\*.sql" GSFSchema PDQTracker
+%replace% /r /v "%targetschema%\*.sql" "--*" "-- "
+%replace% /r /v "%targetschema%\*SampleDataSet.sql" 8500 8520
+%replace% /r /v "%targetschema%\*SampleDataSet.sql" 6165 6185
+%replace% /r /v "%targetschema%\*SampleDataSet.sql" "e7a5235d-cb6f-4864-a96e-a8686f36e599" "992fcc16-9bd4-4048-9db2-f003c6bb373f"
+%replace% /r /v "%targetschema%\*db-update.bat" GSFSchema PDQTracker
 CD %targetschema%\SQLite
 CALL db-update.bat
 CD %gwd%
