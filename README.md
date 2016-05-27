@@ -38,7 +38,7 @@ Documentation for PDQTracker can be found [here](https://github.com/GridProtecti
 
 Download the release candidate [here](https://github.com/GridProtectionAlliance/pdqtracker/releases).
 
-# Nightly Build
+## Nightly Build
 
 Download the nightly build [here](http://www.gridprotectionalliance.org/nightlybuilds/PDQTracker/Beta/PDQTracker.Installs.zip).
 
