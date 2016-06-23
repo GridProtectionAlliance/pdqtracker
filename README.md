@@ -10,9 +10,12 @@ The purpose of PDQ Tracker is (1) to measure phasor data quality, (2) to dissemi
 
 PDQ Tracker is being developed with sponsorship from Dominion Virginia Power and Peak RC.
 
-# Documentation
+# Documentation and Support
 
-Documentation for PDQTracker can be found [here](https://github.com/GridProtectionAlliance/pdqtracker/tree/master/Source/Documentation).
+* Documentation for PDQTracker can be found [here](https://github.com/GridProtectionAlliance/pdqtracker/tree/master/Source/Documentation).
+* Get in contact with our development team on our new [discussion boards](http://discussions.gridprotectionalliance.org/c/gpa-products/pdqtracker).
+* View old discussion board topics [here](http://pdqtracker.codeplex.com/discussions).
+* Check out the [pdqtracker wiki](https://gridprotectionalliance.org/wiki/doku.php?id=pdqtracker:overview).
 
 # Deployment
 
