@@ -17,7 +17,7 @@ Documentation for PDQTracker can be found [here](https://github.com/GridProtecti
 # Deployment
 
 1. Make sure your system meets all the [requirements](#requirements) below.
-* Download the [release candidate](#release-candidate) or [nightly build](#nightly-build) below.
+* Choose a [download](#downloads) below.
 * Unzip.
 * Run "Setup.exe".
 * Follow the wizard.
@@ -34,13 +34,10 @@ Documentation for PDQTracker can be found [here](https://github.com/GridProtecti
   * PostgreSQL
   * SQLite (Not recommended for production use) - included
 
-## Release Candidate
+## Downloads
 
-Download the release candidate [here](https://github.com/GridProtectionAlliance/pdqtracker/releases).
-
-## Nightly Build
-
-Download the nightly build [here](http://www.gridprotectionalliance.org/nightlybuilds/PDQTracker/Beta/PDQTracker.Installs.zip).
+* Download the release candidate [here](https://github.com/GridProtectionAlliance/pdqtracker/releases).
+* Download the nightly build [here](http://www.gridprotectionalliance.org/nightlybuilds/PDQTracker/Beta/PDQTracker.Installs.zip).
 
 # Contributing
 If you would like to contribute please:
