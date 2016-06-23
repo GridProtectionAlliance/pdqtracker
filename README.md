@@ -51,4 +51,4 @@ If you would like to contribute please:
 * Create a pull request.
  
 # License
-PDQTracker is licensed under the [MIT License](https://gridprotectionalliance.org/wiki/doku.php?id=pdqtracker:overview).
+PDQTracker is licensed under the [MIT License]https://opensource.org/licenses/MIT).
