@@ -1,4 +1,4 @@
-![PDQ Tracker](https://raw.githubusercontent.com/GridProtectionAlliance/pdqtracker/master/Readme%20files/Logo.png)
+![Icon](http://www.gridprotectionalliance.org/images/products/icons%2064/PDQTracker.png)![PDQ Tracker](http://www.gridprotectionalliance.org/images/products/PDQTracker.png)
 
 # PDQ Tracker
 
@@ -6,7 +6,7 @@ The PDQ Tracker administered by the Grid Protection Alliance (GPA) is a high-per
 
 The purpose of PDQ Tracker is (1) to measure phasor data quality, (2) to disseminate data quality information to assure data quality awareness and facilitate data quality problem resolution, and (3) to provide a platform that can be extended to provide comprehensive data quality analytics including phasor data correction. See: [PDQTracker High Level Requirements](http://www.gridprotectionalliance.org/docs/products/PDQTracker/highlevelrequirements.pdf).
 
-![PDQTracker Overview](https://raw.githubusercontent.com/GridProtectionAlliance/pdqtracker/master/Readme%20files/Overview.png)
+![PDQTracker Overview](https://raw.githubusercontent.com/GridProtectionAlliance/pdqtracker/master/Source/Documentation/Readme%20files/Overview.png)
 
 PDQ Tracker is being developed with sponsorship from Dominion Virginia Power and Peak RC.
 
