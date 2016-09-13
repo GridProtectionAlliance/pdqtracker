@@ -39,7 +39,7 @@ PDQ Tracker is being developed with sponsorship from Dominion Virginia Power and
 
 ## Downloads
 
-* Download the release candidate [here](https://github.com/GridProtectionAlliance/pdqtracker/releases).
+* Download the latest release [here](https://github.com/GridProtectionAlliance/pdqtracker/releases).
 * Download the nightly build [here](http://www.gridprotectionalliance.org/nightlybuilds/PDQTracker/Beta/PDQTracker.Installs.zip).
 
 # Contributing
