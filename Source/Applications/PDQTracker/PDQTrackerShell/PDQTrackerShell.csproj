@@ -91,7 +91,7 @@
   <ItemGroup>
     <ProjectReference Include="..\PDQTracker\PDQTracker.csproj">
       <Project>{0bf2447e-252d-4712-b154-e350af463081}</Project>
-      <Name>PDQTracker %28Applications\PDQTracker\PDQTracker%29</Name>
+      <Name>PDQTracker</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
