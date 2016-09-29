@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-  <Product Id="{FA7DBEF0-F7B6-4083-8146-88DCCEE4B97F}" Name="PDQTracker" Language="1033" Version="!(bind.FileVersion.PDQTracker.exe)" Manufacturer="Grid Protection Alliance" UpgradeCode="{7AB7F1D3-D80B-46C4-BC13-7E8A8CFDFE6C}">
+  <Product Id="*" Name="PDQTracker" Language="1033" Version="!(bind.FileVersion.PDQTracker.exe)" Manufacturer="Grid Protection Alliance" UpgradeCode="{7AB7F1D3-D80B-46C4-BC13-7E8A8CFDFE6C}">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
     <MediaTemplate EmbedCab="yes" />    
@@ -75,7 +75,7 @@
 
     <!-- User Interface -->
     <UI>
-      <UIRef Id="WixUI_FeatureTree" />
+      <UIRef Id="CustomFeatureTree" />
       <UIRef Id="WixUI_ErrorProgressText" />
       <DialogRef Id="CompanyInfoDialog" />
       <DialogRef Id="ServiceAccountDialog" />
@@ -83,6 +83,7 @@
       <Publish Dialog="CustomizeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg"><![CDATA[NOT(&PDQTrackerFeature=3)]]></Publish>
       <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="CompanyInfoDialog">(NOT Installed OR WixUI_InstallMode = "Change") AND <![CDATA[&PDQTrackerFeature=3]]></Publish>
       <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="CustomizeDlg">(NOT Installed OR WixUI_InstallMode = "Change") AND <![CDATA[NOT(&PDQTrackerFeature=3)]]></Publish>
+      <Publish Dialog="CustomExitDialog" Control="Finish" Event="DoAction" Value="StartCSUProcessAction">WIXUI_CUSTOMEXITDIALOGOPTIONALCHECKBOX = 1</Publish>
     </UI>
 
     <Icon Id="PDQTracker.ico.exe" SourceFile="$(var.PDQTracker.TargetPath)" />
@@ -102,16 +103,22 @@
     <Property Id="COMPANYNAME" Value="Grid Protection Alliance" />
     <Property Id="COMPANYACRONYM" Value="GPA" />
     <SetProperty Id="SERVICEACCOUNT" Value="NT SERVICE\[SERVICENAME]" After="LaunchConditions" Sequence="first" />
+    <SetProperty Id="PROCESSSTARTINFO" Value="FileName={[#ConfigurationSetupUtility.exe]};UseShellExecute=True;Verb=runas" After="ExecuteAction" Sequence="ui" />
     <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\PDQTrackerSetupBanner.bmp" />
     <WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)\PDQTrackerSetupDialog.bmp" />
     <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\INSTALL_LICENSE.rtf" />
-    
+
     <!-- Add/Remove Programs Icon -->
     <Property Id="ARPPRODUCTICON" Value="PDQTracker.ico.exe" />
+
+    <!-- Display checkbox to select whether to launch the CSU -->
+    <SetProperty Id="WIXUI_CUSTOMEXITDIALOGOPTIONALCHECKBOX" Value="1" After="ExecuteAction" Sequence="ui">(NOT Installed OR WixUI_InstallMode = "Change") AND ($ConfigurationSetupUtility=3 OR (?ConfigurationSetupUtility=3 AND $ConfigurationSetupUtility=-1))</SetProperty>
+    <SetProperty Id="WIXUI_CUSTOMEXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Configuration Setup Utility" After="ExecuteAction" Sequence="ui">(NOT Installed OR WixUI_InstallMode = "Change") AND ($ConfigurationSetupUtility=3 OR (?ConfigurationSetupUtility=3 AND $ConfigurationSetupUtility=-1))</SetProperty>
 
     <!-- Custom Actions -->
     <Binary Id="InstallerActions" SourceFile="$(var.SolutionDir)\Dependencies\GSF\GSF.InstallerActions.CA.dll" />
     <CustomAction Id="AuthenticateServiceAccountAction" BinaryKey="InstallerActions" DllEntry="AuthenticateServiceAccountAction" Execute="immediate" />
+    <CustomAction Id="StartCSUProcessAction" BinaryKey="InstallerActions" DllEntry="StartProcessAction" Execute="immediate" />
     <CustomAction Id="CompanyInfoAction.SetProperty" Property="CompanyInfoAction" Value="SERVICENAME=[SERVICENAME];INSTALLDIR=[INSTALLFOLDER];COMPANYNAME=[COMPANYNAME];COMPANYACRONYM=[COMPANYACRONYM]" />
     <CustomAction Id="CompanyInfoAction" BinaryKey="InstallerActions" DllEntry="CompanyInfoAction" Execute="deferred" Impersonate="no" />
     <CustomAction Id="ConfigureServiceAction.SetProperty" Property="ConfigureServiceAction" Value="SERVICENAME=[SERVICENAME]" />

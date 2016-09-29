@@ -1,5 +1,0 @@
-[autorun]
-icon=System\GPA.ico
-open=setup.exe
-label=GPA PDQTracker Setup
-action=Install the PDQTracker
