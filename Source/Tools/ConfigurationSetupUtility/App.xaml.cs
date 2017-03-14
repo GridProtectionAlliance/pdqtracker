@@ -28,6 +28,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Security.Principal;
+using System.Windows;
 using GSF.IO;
 using GSF.Security.Cryptography;
 using GSF.Windows.ErrorManagement;
@@ -37,13 +38,23 @@ namespace ConfigurationSetupUtility
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App
+    public partial class App : Application
     {
         #region [ Members ]
 
         // Constants
         public const CipherStrength CryptoStrength = CipherStrength.Aes256;
         public const string CipherLookupKey = "0679d9ae-aca5-4702-a3f5-604415096987";
+
+        public const string ApplicationExe = "PDQTracker.exe";
+        public const string ApplicationConfig = "PDQTracker.exe.config";
+        public const string Manager = "PDQTrackerManager";
+        public const string ManagerExe = "PDQTrackerManager.exe";
+        public const string ManagerConfig = "PDQTrackerManager.exe.config";
+        public const string BaseSqliteConfig = "PDQTracker.db";
+        public readonly static string SqliteConfigv2 = "PDQTracker" + DatabaseVersionSuffix + ".db";
+        public const string SqliteSampleData = "PDQTracker-SampleDataSet.db";
+        public const string SqliteInitialData = "PDQTracker-InitialDataSet.db";
 
         private readonly ErrorLogger m_errorLogger;
         private readonly Func<string> m_defaultErrorText;

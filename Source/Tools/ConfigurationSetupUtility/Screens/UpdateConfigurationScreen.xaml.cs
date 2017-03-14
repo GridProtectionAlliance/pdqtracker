@@ -23,9 +23,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Diagnostics;
+using System.Linq;
 
 namespace ConfigurationSetupUtility.Screens
 {
@@ -39,7 +40,7 @@ namespace ConfigurationSetupUtility.Screens
 
         // Fields
 
-        private DataMigrationScreen m_dataMigrationScreen;
+        private readonly DataMigrationScreen m_dataMigrationScreen;
         private Dictionary<string, object> m_state;
 
         #endregion

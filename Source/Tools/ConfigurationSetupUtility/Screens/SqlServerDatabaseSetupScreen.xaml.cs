@@ -29,6 +29,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Management;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -49,7 +50,7 @@ namespace ConfigurationSetupUtility.Screens
         #region [ Members ]
 
         // Fields
-        private SqlServerSetup m_sqlServerSetup;
+        private readonly SqlServerSetup m_sqlServerSetup;
         private Dictionary<string, object> m_state;
         private Button m_advancedButton;
 
