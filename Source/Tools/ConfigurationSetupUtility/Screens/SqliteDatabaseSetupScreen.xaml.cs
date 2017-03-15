@@ -7,10 +7,10 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Linq;
+using Microsoft.Win32;
 using GSF;
 using GSF.Data;
 using GSF.IO;
-using Microsoft.Win32;
 
 namespace ConfigurationSetupUtility.Screens
 {
@@ -242,21 +242,21 @@ namespace ConfigurationSetupUtility.Screens
                 if (!Directory.Exists(sqliteDatabaseFilePath))
                     Directory.CreateDirectory(sqliteDatabaseFilePath);
 
-                m_sqliteDatabaseFilePathTextBox.Text = Path.Combine(sqliteDatabaseFilePath, migrate ? "PDQTracker" + App.DatabaseVersionSuffix + ".db" : "PDQTracker.db");
+                m_sqliteDatabaseFilePathTextBox.Text = Path.Combine(sqliteDatabaseFilePath, migrate ? App.SqliteConfigv2 : App.BaseSqliteConfig); //"PDQTracker" + App.DatabaseVersionSuffix + ".db" : "PDQTracker.db");
             }
             catch
             {
-                m_sqliteDatabaseFilePathTextBox.Text = migrate ? "PDQTracker" + App.DatabaseVersionSuffix + ".db" : "PDQTracker.db";
+                m_sqliteDatabaseFilePathTextBox.Text = migrate ? App.SqliteConfigv2 : App.BaseSqliteConfig; //"PDQTracker" + App.DatabaseVersionSuffix + ".db" : "PDQTracker.db";
             }
 
             if (!m_state.ContainsKey("sqliteDatabaseFilePath"))
                 m_state.Add("sqliteDatabaseFilePath", m_sqliteDatabaseFilePathTextBox.Text);
 
             // When using an existing database as-is, read existing connection settings out of the configuration file
-            string configFile = FilePath.GetAbsolutePath("PDQTracker.exe.config");
+            string configFile = FilePath.GetAbsolutePath(App.ApplicationConfig);
 
             if (!File.Exists(configFile))
-                configFile = FilePath.GetAbsolutePath("PDQTrackerManager.exe.config");
+                configFile = FilePath.GetAbsolutePath(App.ManagerConfig);
 
             if (existing && !migrate && File.Exists(configFile))
             {

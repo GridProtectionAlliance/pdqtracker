@@ -53,10 +53,10 @@ namespace ConfigurationSetupUtility.Screens
         #region [ Members ]
 
         // Fields
-        private MySqlSetup m_mySqlSetup;
+        private readonly MySqlSetup m_mySqlSetup;
         private Dictionary<string, object> m_state;
         private Button m_advancedButton;
-        private string m_dataProviderString;
+        private readonly string m_dataProviderString;
 
         #endregion
 
@@ -341,10 +341,10 @@ namespace ConfigurationSetupUtility.Screens
                 m_databaseNameTextBox.Text = migrate ? "PDQTracker" + App.DatabaseVersionSuffix : "PDQTracker";
 
                 // When using an existing database as-is, read existing connection settings out of the configuration file
-                string configFile = FilePath.GetAbsolutePath("PDQTracker.exe.config");
+                string configFile = FilePath.GetAbsolutePath(App.ApplicationConfig);
 
                 if (!File.Exists(configFile))
-                    configFile = FilePath.GetAbsolutePath("PDQTrackerManager.exe.config");
+                    configFile = FilePath.GetAbsolutePath(App.ManagerConfig);
 
                 if (existing && !migrate && File.Exists(configFile))
                 {
