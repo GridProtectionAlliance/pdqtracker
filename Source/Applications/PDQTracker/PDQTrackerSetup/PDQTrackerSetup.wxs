@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-  <Product Id="{FA7DBEF0-F7B6-4083-8146-88DCCEE4B97F}" Name="PDQTracker" Language="1033" Version="!(bind.FileVersion.PDQTracker.exe)" Manufacturer="Grid Protection Alliance" UpgradeCode="{7AB7F1D3-D80B-46C4-BC13-7E8A8CFDFE6C}">
+  <Product Id="*" Name="PDQTracker" Language="1033" Version="!(bind.FileVersion.PDQTracker.exe)" Manufacturer="Grid Protection Alliance" UpgradeCode="{7AB7F1D3-D80B-46C4-BC13-7E8A8CFDFE6C}">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
     <MediaTemplate EmbedCab="yes" />    
@@ -58,6 +58,9 @@
         <Feature Id="HistorianViewFeature" Title="Historian Trending Tool">
           <ComponentGroupRef Id="HistorianViewComponents" />
         </Feature>
+        <Feature Id="LogFileViewerFeature" Title="Log File Viewer">
+          <ComponentGroupRef Id="LogFileViewerComponents" />
+        </Feature>
         <Feature Id="NoInetFixUtilFeature" Title="No-Internet Fix Utility">
           <ComponentRef Id="NoInetFixUtil" />
         </Feature>
@@ -75,7 +78,7 @@
 
     <!-- User Interface -->
     <UI>
-      <UIRef Id="WixUI_FeatureTree" />
+      <UIRef Id="CustomFeatureTree" />
       <UIRef Id="WixUI_ErrorProgressText" />
       <DialogRef Id="CompanyInfoDialog" />
       <DialogRef Id="ServiceAccountDialog" />
@@ -83,6 +86,7 @@
       <Publish Dialog="CustomizeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg"><![CDATA[NOT(&PDQTrackerFeature=3)]]></Publish>
       <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="CompanyInfoDialog">(NOT Installed OR WixUI_InstallMode = "Change") AND <![CDATA[&PDQTrackerFeature=3]]></Publish>
       <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="CustomizeDlg">(NOT Installed OR WixUI_InstallMode = "Change") AND <![CDATA[NOT(&PDQTrackerFeature=3)]]></Publish>
+      <Publish Dialog="CustomExitDialog" Control="Finish" Event="DoAction" Value="StartCSUProcessAction">WIXUI_CUSTOMEXITDIALOGOPTIONALCHECKBOX = 1</Publish>
     </UI>
 
     <Icon Id="PDQTracker.ico.exe" SourceFile="$(var.PDQTracker.TargetPath)" />
@@ -94,24 +98,31 @@
     <Icon Id="ConfigurationEditor.ico.exe" SourceFile="$(var.ProjectDir)\ConfigurationEditor.exe" />
     <Icon Id="HistorianPlaybackUtility.ico.exe" SourceFile="$(var.ProjectDir)\HistorianPlaybackUtility.exe" />
     <Icon Id="HistorianView.ico.exe" SourceFile="$(var.ProjectDir)\HistorianView.exe" />
+    <Icon Id="LogFileViewer.ico.exe" SourceFile="$(var.ProjectDir)\LogFileViewer.exe" />
     <Icon Id="NoInetFixUtil.ico.exe" SourceFile="$(var.ProjectDir)\NoInetFixUtil.exe" />
 
     <Property Id="SERVICENAME" Value="$(var.PDQTracker.TargetName)" />
     <Property Id="SERVICEPASSWORD" Hidden="yes" />
-    <Property Id="HTTPSERVICEPORTS" Value="6059,6060,6159,6160,5022" />
+    <Property Id="HTTPSERVICEPORTS" Value="6059,6060,6159,6160,6360,6460,5022" />
     <Property Id="COMPANYNAME" Value="Grid Protection Alliance" />
     <Property Id="COMPANYACRONYM" Value="GPA" />
     <SetProperty Id="SERVICEACCOUNT" Value="NT SERVICE\[SERVICENAME]" After="LaunchConditions" Sequence="first" />
+    <SetProperty Id="PROCESSSTARTINFO" Value="FileName={[#ConfigurationSetupUtility.exe]};Arguments=-install;UseShellExecute=True;Verb=runas" After="ExecuteAction" Sequence="ui" />
     <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\PDQTrackerSetupBanner.bmp" />
     <WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)\PDQTrackerSetupDialog.bmp" />
     <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\INSTALL_LICENSE.rtf" />
-    
+
     <!-- Add/Remove Programs Icon -->
     <Property Id="ARPPRODUCTICON" Value="PDQTracker.ico.exe" />
+
+    <!-- Display checkbox to select whether to launch the CSU -->
+    <SetProperty Id="WIXUI_CUSTOMEXITDIALOGOPTIONALCHECKBOX" Value="1" After="ExecuteAction" Sequence="ui">(NOT Installed OR WixUI_InstallMode = "Change") AND ($ConfigurationSetupUtility=3 OR (?ConfigurationSetupUtility=3 AND $ConfigurationSetupUtility=-1))</SetProperty>
+    <SetProperty Id="WIXUI_CUSTOMEXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Configuration Setup Utility" After="ExecuteAction" Sequence="ui">(NOT Installed OR WixUI_InstallMode = "Change") AND ($ConfigurationSetupUtility=3 OR (?ConfigurationSetupUtility=3 AND $ConfigurationSetupUtility=-1))</SetProperty>
 
     <!-- Custom Actions -->
     <Binary Id="InstallerActions" SourceFile="$(var.SolutionDir)\Dependencies\GSF\GSF.InstallerActions.CA.dll" />
     <CustomAction Id="AuthenticateServiceAccountAction" BinaryKey="InstallerActions" DllEntry="AuthenticateServiceAccountAction" Execute="immediate" />
+    <CustomAction Id="StartCSUProcessAction" BinaryKey="InstallerActions" DllEntry="StartProcessAction" Execute="immediate" />
     <CustomAction Id="CompanyInfoAction.SetProperty" Property="CompanyInfoAction" Value="SERVICENAME=[SERVICENAME];INSTALLDIR=[INSTALLFOLDER];COMPANYNAME=[COMPANYNAME];COMPANYACRONYM=[COMPANYACRONYM]" />
     <CustomAction Id="CompanyInfoAction" BinaryKey="InstallerActions" DllEntry="CompanyInfoAction" Execute="deferred" Impersonate="no" />
     <CustomAction Id="ConfigureServiceAction.SetProperty" Property="ConfigureServiceAction" Value="SERVICENAME=[SERVICENAME]" />
@@ -297,6 +308,7 @@
       <ComponentGroupRef Id="ConfigurationEditorComponents" />
       <ComponentGroupRef Id="HistorianPlaybackUtilityComponents" />
       <ComponentGroupRef Id="HistorianViewComponents" />
+      <ComponentGroupRef Id="LogFileViewerComponents" />
 
       <Component Id="NoInetFixUtil">
         <File Id="NoInetFixUtil.exe" Name="NoInetFixUtil.exe" Source="$(var.ProjectDir)\NoInetFixUtil.exe" />
@@ -358,6 +370,13 @@
       </Component>
     </ComponentGroup>
 
+    <ComponentGroup Id="LogFileViewerComponents" Directory="INSTALLFOLDER">
+      <Component Id="LogFileViewer">
+        <File Id="LogFileViewer.exe" Name="LogFileViewer.exe" Source="$(var.ProjectDir)\LogFileViewer.exe" />
+        <Shortcut Id="LogFileViewerStartMenuShortcut" Name="Log File Viewer" Icon="LogFileViewer.ico.exe" Description="Tool used to analyze log files produced by the PDQTracker." WorkingDirectory="INSTALLFOLDER" Directory="ApplicationProgramsFolder" Advertise="yes" />
+      </Component>
+    </ComponentGroup>
+
     <!-- Adapters -->
     <ComponentGroup Id="AdapterComponents" Directory="INSTALLFOLDER">
       <Component Id="AdoAdapters">
@@ -407,6 +426,9 @@
       </Component>
       <Component Id="Google.ProtocolBuffers">
         <File Id="Google.ProtocolBuffers.dll" Name="Google.ProtocolBuffers.dll" Source="$(var.SolutionDir)\Dependencies\GSF\Google.ProtocolBuffers.dll" />
+      </Component>
+      <Component Id="GrafanaAdapters">
+        <File Id="GrafanaAdapters.dll" Name="GrafanaAdapters.dll" Source="$(var.SolutionDir)\Dependencies\GSF\GrafanaAdapters.dll" />
       </Component>
       <Component Id="Hadoop.Replication">
         <File Id="Hadoop.Replication.dll" Name="Hadoop.Replication.dll" Source="$(var.SolutionDir)\Dependencies\GSF\Hadoop.Replication.dll" />
@@ -534,6 +556,9 @@
       </Component>
       <Component Id="System.Data.SQLite">
         <File Id="System.Data.SQLite.dll" Name="System.Data.SQLite.dll" Source="$(var.SolutionDir)\Dependencies\GSF\System.Data.SQLite.dll" />
+      </Component>
+      <Component Id="Newtonsoft.Json">
+        <File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="$(var.SolutionDir)Dependencies\GSF\Newtonsoft.Json.dll" />
       </Component>
     </ComponentGroup>
     

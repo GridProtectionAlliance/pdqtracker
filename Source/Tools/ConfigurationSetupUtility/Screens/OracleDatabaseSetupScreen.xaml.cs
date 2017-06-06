@@ -25,11 +25,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Xml.Linq;
+using GSF.Configuration;
 using GSF.Data;
 using GSF.IO;
 
@@ -43,7 +42,7 @@ namespace ConfigurationSetupUtility.Screens
         #region [ Members ]
 
         // Fields
-        private OracleSetup m_oracleSetup;
+        private readonly OracleSetup m_oracleSetup;
         private Dictionary<string, object> m_state;
         private Button m_advancedButton;
 
@@ -247,7 +246,7 @@ namespace ConfigurationSetupUtility.Screens
                 string newDatabaseMessage = "Please enter the needed information about the\r\nOracle database you would like to create.";
                 string oldDatabaseMessage = "Please enter the needed information about\r\nyour existing Oracle database.";
 
-                XDocument serviceConfig;
+                ConfigurationFile serviceConfig;
                 string connectionString;
                 string dataProviderString;
 
@@ -283,28 +282,16 @@ namespace ConfigurationSetupUtility.Screens
                 m_schemaUserNameTextBox.Text = migrate ? "PDQTracker" + App.DatabaseVersionSuffix : "PDQTracker";
 
                 // When using an existing database as-is, read existing connection settings out of the configuration file
-                string configFile = FilePath.GetAbsolutePath("PDQTracker.exe.config");
+                string configFile = FilePath.GetAbsolutePath(App.ApplicationConfig);
 
                 if (!File.Exists(configFile))
-                    configFile = FilePath.GetAbsolutePath("PDQTrackerManager.exe.config");
+                    configFile = FilePath.GetAbsolutePath(App.ManagerConfig);
 
                 if (existing && !migrate && File.Exists(configFile))
                 {
-                    serviceConfig = XDocument.Load(configFile);
-
-                    connectionString = serviceConfig
-                        .Descendants("systemSettings")
-                        .SelectMany(systemSettings => systemSettings.Elements("add"))
-                        .Where(element => "ConnectionString".Equals((string)element.Attribute("name"), StringComparison.OrdinalIgnoreCase))
-                        .Select(element => (string)element.Attribute("value"))
-                        .FirstOrDefault();
-
-                    dataProviderString = serviceConfig
-                        .Descendants("systemSettings")
-                        .SelectMany(systemSettings => systemSettings.Elements("add"))
-                        .Where(element => "DataProviderString".Equals((string)element.Attribute("name"), StringComparison.OrdinalIgnoreCase))
-                        .Select(element => (string)element.Attribute("value"))
-                        .FirstOrDefault();
+                    serviceConfig = ConfigurationFile.Open(configFile);
+                    connectionString = serviceConfig.Settings["systemSettings"]["ConnectionString"]?.Value;
+                    dataProviderString = serviceConfig.Settings["systemSettings"]["DataProviderString"]?.Value;
 
                     if (!string.IsNullOrEmpty(connectionString) && m_oracleSetup.DataProviderString.Equals(dataProviderString, StringComparison.InvariantCultureIgnoreCase))
                     {
@@ -312,6 +299,7 @@ namespace ConfigurationSetupUtility.Screens
                         m_tnsNameTextBox.Text = m_oracleSetup.TnsName;
                         m_adminUserNameTextBox.Text = m_oracleSetup.SchemaUserName;
                         m_adminPasswordTextBox.Password = m_oracleSetup.SchemaPassword;
+                        m_oracleSetup.EncryptConnectionString = serviceConfig.Settings["systemSettings"]["ConnectionString"].Encrypted;
                     }
                 }
             }
