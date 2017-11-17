@@ -48,6 +48,7 @@
       <MenuDataItem Icon="" MenuText="_Inputs       " Description="Manage PDQTracker Inputs" Roles="Administrator,Editor" UserControlAssembly="" UserControlPath="">
         <SubMenuItems>
           <MenuDataItem Icon="" MenuText="Manage _Custom Inputs" Description="Manage Custom Input Adapters" Roles="*" UserControlAssembly="GSF.TimeSeries.UI.WPF.dll" UserControlPath="GSF.TimeSeries.UI.UserControls.CustomInputAdapterUserControl" />
+          <MenuDataItem Icon="" MenuText="Manage Custom _Filters" Description="Manage Custom Filter Adapters" Roles="*" UserControlAssembly="GSF.TimeSeries.UI.WPF.dll" UserControlPath="GSF.TimeSeries.UI.UserControls.CustomFilterAdapterUserControl" />
           <MenuDataItem Icon="" MenuText="" Description="" Roles="*" UserControlAssembly="" UserControlPath="" />
           <MenuDataItem Icon="" MenuText="Manage SIEGate _Measurement Subscriptions" Description="Manage Local Measurement Subscriptions from External Gateways" Roles="*" UserControlAssembly="GSF.TimeSeries.Transport.UI.WPF.dll" UserControlPath="GSF.TimeSeries.Transport.UI.UserControls.SubscribeMeasurementUserControl"/>
           <MenuDataItem Icon="" MenuText="Create SIEGate Gateway Authorization _Request" Description="Create Authorization Request for Access to External Gateway" Roles="Administrator,Editor" UserControlAssembly="GSF.TimeSeries.Transport.UI.WPF.dll" UserControlPath="GSF.TimeSeries.Transport.UI.UserControls.SubscriberRequestUserControl"/>
