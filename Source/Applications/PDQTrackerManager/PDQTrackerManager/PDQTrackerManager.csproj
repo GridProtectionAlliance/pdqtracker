@@ -232,6 +232,7 @@
   <ItemGroup>
     <Content Include="Menu.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
