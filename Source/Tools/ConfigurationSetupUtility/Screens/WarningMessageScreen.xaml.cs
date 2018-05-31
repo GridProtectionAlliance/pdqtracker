@@ -121,7 +121,7 @@ namespace ConfigurationSetupUtility.Screens
 
         private void hyperlinkHelp_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("http://PDQTracker.codeplex.com/documentation/");
+            Process.Start("https://github.com/GridProtectionAlliance/pdqtracker");
         }
 
         #endregion
