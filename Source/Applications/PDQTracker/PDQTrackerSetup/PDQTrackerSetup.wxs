@@ -39,6 +39,7 @@
         <ComponentGroupRef Id="AdapterComponents" />
         <ComponentGroupRef Id="ConfigurationSetupUtilityComponents" />
         <ComponentGroupRef Id="GSFDependencyComponents" />
+        <ComponentGroupRef Id="AzureADDependencyComponents" />
         <ComponentGroupRef Id="MicrosoftDependencyComponents" />
         <ComponentRef Id="makecert"/>
       </Feature>
@@ -241,6 +242,7 @@
       <!-- Libraries -->
       <ComponentGroupRef Id="AdapterComponents" />
       <ComponentGroupRef Id="GSFDependencyComponents" />
+      <ComponentGroupRef Id="AzureADDependencyComponents" />
       <ComponentGroupRef Id="MicrosoftDependencyComponents" />
 
       <!-- Database Scripts -->
@@ -516,7 +518,7 @@
       </Component>
     </ComponentGroup>
     
-        <ComponentGroup Id="eDNAAdapterComponents" Directory="INSTALLFOLDER">
+    <ComponentGroup Id="eDNAAdapterComponents" Directory="INSTALLFOLDER">
       <Component Id="eDNAAdapters">
         <!-- eDNA Historian Adapters -->
         <File Id="eDNAAdapters.dll" Name="eDNAAdapters.dll" Source="$(var.SolutionDir)\Dependencies\GSF\eDNAAdapters.dll">
