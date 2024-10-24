@@ -142,6 +142,7 @@
     <Property Id="INSTALLOPTIONALFEATURE" Secure="yes" />
 
     <Property Id="SERVICENAME" Value="$(var.PDQTracker.TargetName)" />
+    <Property Id="SERVICEACCOUNT" Secure="yes" />
     <Property Id="SERVICEPASSWORD" Hidden="yes" />
     <Property Id="HTTPSERVICEPORTS" Value="6059,6060,6159,6160,6360,6460,5022" />
     <Property Id="COMPANYNAME" Value="Grid Protection Alliance" />
